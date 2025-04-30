@@ -1,0 +1,25 @@
+# Start with the official Python 3.10 slim base image
+# 'slim' uses Debian and is smaller than the full image but includes common dependencies
+FROM python:3.10-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Optional: Update package lists and upgrade existing packages
+# This is good practice but can increase build time.
+# RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+
+# Install the Python libraries using pip
+# --no-cache-dir prevents pip from storing downloaded packages, reducing image size
+# Combine into a single RUN command to reduce layers
+RUN pip install --no-cache-dir pandas tensorflow numpy
+
+# (Optional) You could copy your local project files into the container here
+# COPY . .
+
+# Set the default command to run when the container starts
+# This will drop you into a bash shell inside the container
+CMD ["bash"]
+
+# Alternatively, you could start a Python interpreter directly:
+# CMD ["python"]
